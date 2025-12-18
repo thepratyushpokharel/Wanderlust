@@ -1,0 +1,32 @@
+/* Basic starability rating styles */
+.starability-slot {
+  border: none;
+  padding: 0;
+}
+
+.starability-slot input[type="radio"] {
+  display: none;
+}
+
+.starability-slot label {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin: 0 2px;
+  cursor: pointer;
+  color: #ddd;
+  font-size: 1.5rem;
+}
+
+.starability-slot label:hover,
+.starability-slot label:hover ~ label,
+.starability-slot input[type="radio"]:checked ~ label {
+  color: #ffc107;
+}
+
+.starability-result {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+
