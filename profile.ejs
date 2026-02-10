@@ -1,0 +1,56 @@
+<% layout("/layouts/bp") %>
+<div class="row mt-3">
+    <div class="col-12">
+        <h2>My Profile</h2>
+        <hr>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <h3>Booking Requests</h3>
+        <% if(bookings && bookings.length > 0) { %>
+            <div class="row">
+                <% for(let booking of bookings) { %>
+                    <div class="card col-md-6 mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                Booking for: <%= booking.listing.title %>
+                            </h5>
+                            <p class="card-text">
+                                <strong>From:</strong> <%= booking.booker.username %><br>
+                                <strong>Email:</strong> <%= booking.contactInfo.email %><br>
+                                <% if(booking.contactInfo.phone) { %>
+                                    <strong>Phone:</strong> <%= booking.contactInfo.phone %><br>
+                                <% } %>
+                                <strong>Message:</strong> <%= booking.message %><br>
+                                <strong>Date:</strong> <%= booking.createdAt.toLocaleDateString() %><br>
+                                <strong>Status:</strong> 
+                                <span class="badge bg-<%= booking.status === 'pending' ? 'warning' : booking.status === 'accepted' ? 'success' : 'danger' %>">
+                                    <%= booking.status.charAt(0).toUpperCase() + booking.status.slice(1) %>
+                                </span>
+                            </p>
+                            <% if(booking.status === 'pending') { %>
+                                <div class="btn-group" role="group">
+                                    <form method="POST" action="/bookings/<%= booking._id %>/status?_method=PUT" class="d-inline">
+                                        <input type="hidden" name="status" value="accepted">
+                                        <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                                    </form>
+                                    <form method="POST" action="/bookings/<%= booking._id %>/status?_method=PUT" class="d-inline">
+                                        <input type="hidden" name="status" value="rejected">
+                                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                                    </form>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        <% } else { %>
+            <div class="alert alert-info">
+                <h4>No booking requests yet</h4>
+                <p>When users book your listings, you'll see them here.</p>
+            </div>
+        <% } %>
+    </div>
+</div>
